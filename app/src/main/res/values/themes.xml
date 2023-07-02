@@ -3,10 +3,13 @@
     <style name="Base.Theme.UberCloneApp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
     </style>
 
     <style name="Theme.UberCloneApp" parent="Base.Theme.UberCloneApp" />
     <style name="SplashScreenActivity" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@drawable/splash_screen</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
 </resources>
