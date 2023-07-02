@@ -6,4 +6,7 @@
     </style>
 
     <style name="Theme.UberCloneApp" parent="Base.Theme.UberCloneApp" />
+    <style name="SplashScreenActivity" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+    </style>
 </resources>
