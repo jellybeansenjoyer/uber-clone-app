@@ -24,12 +24,17 @@ class SplashScreenActivity : AppCompatActivity() {
         initial()
     }
 
+    override fun onStart() {
+        super.onStart()
+        firebaseAuth.addAuthStateListener(listener)
+    }
+
     private fun initial() {
         providers = Arrays.asList(AuthUI.IdpConfig.PhoneBuilder().build(),
         AuthUI.IdpConfig.GoogleBuilder().build())
         firebaseAuth = FirebaseAuth.getInstance()
-        listener = firebaseAuth.let{
-            val user = firebaseAuth.currentUser
+        listener = FirebaseAuth.AuthStateListener {
+            val user = it.currentUser
             if(user!=null){
                 delaySplashScreen()
             }else{
@@ -39,7 +44,7 @@ class SplashScreenActivity : AppCompatActivity() {
     }
 
     private fun showLoginLayout() {
-        val authMethodPickerLayout = AuthMethodPickerLayout.Builder(R.layout.signin).setPhoneButtonId(R.id.phone_btn).setGoogleButtonId(R.id.google_btn).build()
+        val authMethodPickerLayout = AuthMethodPickerLayout.Builder(R.layout.login_activity).setPhoneButtonId(R.id.next_btn).setGoogleButtonId(R.id.google_auth_btn).build()
         startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder().setAuthMethodPickerLayout(authMethodPickerLayout).setIsSmartLockEnabled(false).setAvailableProviders(providers).build(),
             LOGIN_REQUEST_CODE)
     }
@@ -51,6 +56,13 @@ class SplashScreenActivity : AppCompatActivity() {
         }
     }
 
+    override fun onStop() {
+        if(firebaseAuth!=null && listener!=null){
+            firebaseAuth.removeAuthStateListener(listener)
+        }
+        super.onStop()
+
+    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         val idpResponse = IdpResponse.fromResultIntent(data)
